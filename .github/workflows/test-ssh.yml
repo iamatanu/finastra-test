@@ -34,3 +34,15 @@ jobs:
               which python
               conda info --envs
             "'
+
+      - name: Test Ansible
+        run: |
+          ssh \
+            -o StrictHostKeyChecking=no \
+            -i ~/.ssh/id_rsa \
+            ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_SERVER }} \
+            'bash -lc "
+              conda activate condapython39
+              ansible --version
+            "'
+
