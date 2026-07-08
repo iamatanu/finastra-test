@@ -22,3 +22,15 @@ jobs:
             -i ~/.ssh/id_rsa \
             ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_SERVER }} \
             hostname
+
+      - name: Test Conda
+        run: |
+          ssh \
+            -o StrictHostKeyChecking=no \
+            -i ~/.ssh/id_rsa \
+            ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_SERVER }} \
+            'bash -lc "
+              conda activate condapython39
+              which python
+              conda info --envs
+            "'
