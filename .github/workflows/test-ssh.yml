@@ -1,0 +1,24 @@
+name: Test SSH
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Install SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ANSIBLE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Test Login
+        run: |
+          ssh \
+            -o StrictHostKeyChecking=no \
+            -i ~/.ssh/id_rsa \
+            ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_SERVER }} \
+            hostname
